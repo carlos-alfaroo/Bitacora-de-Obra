@@ -2,12 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Se usa la cámara para tomar fotos de evidencia de la obra.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Se usa la galería para adjuntar fotos a las entradas de la bitácora.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Se usa el micrófono para dictar el texto de las entradas.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Se usa el reconocimiento de voz para convertir el dictado en texto.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Se registra la ubicación GPS de cada entrada como prueba de lugar.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>comgooglemaps</string>
+		<string>https</string>
+	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Bitacora Obra</string>
+	<string>Bitácora de Obra</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
