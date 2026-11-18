@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guion — Bitácora de Obra</title>
+<style>
+  @page { size: letter; margin: 15mm 16mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; background: #fff; color: #1f1a17; font: 10.5pt/1.5 -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  h1 { font-size: 20pt; margin: 0 0 2pt; }
+  .sub { color: #6b625b; margin: 0 0 12pt; }
+  .consejos { background: #fbe6d6; border-radius: 8pt; padding: 8pt 12pt; margin-bottom: 12pt; font-size: 9.8pt; }
+  .consejos ul { margin: 4pt 0 0; padding-left: 16pt; }
+  .diapo { display: grid; grid-template-columns: 26mm 1fr; gap: 10pt; padding: 8pt 0; border-top: 1px solid #eadfd6; break-inside: avoid; }
+  .diapo .izq b { display: block; font-size: 11pt; }
+  .diapo .izq span { display: inline-block; margin-top: 3pt; font-size: 9pt; font-weight: 700; color: #fff; background: #c35a0e; border-radius: 99px; padding: 1pt 7pt; }
+  .diapo p { margin: 0; }
+  .accion { margin-top: 4pt !important; font-size: 9.5pt; color: #c35a0e; font-weight: 600; }
+  h2 { font-size: 14pt; margin: 18pt 0 6pt; padding-bottom: 4pt; border-bottom: 2px solid #c35a0e; break-after: avoid; }
+  .qa { padding: 6pt 0; border-bottom: 1px solid #eadfd6; break-inside: avoid; }
+  .qa b { display: block; }
+  .qa p { margin: 2pt 0 0; color: #3b3430; }
+</style>
+</head>
+<body>
+  <h1>Guion de la presentación</h1>
+  <p class="sub">Bitácora de Obra · 8 diapositivas · unos 4 min 30 s, para quedar dentro de los 5 minutos</p>
+
+  <div class="consejos"><b>Antes de exponer</b>
+    <ul>
+      <li>Ensaya con cronómetro dos veces. Lo que está aquí es una guía: dilo con tus palabras.</li>
+      <li>Ten el iPhone a la mano con la app abierta y algunas entradas creadas, por si piden verla en vivo.</li>
+      <li>Si la instalaste con cuenta gratuita, reinstálala en la semana del examen, porque caduca a los 7 días.</li>
+      <li>El video de demostración se reproduce aparte del PDF, en la diapositiva 4.</li>
+    </ul>
+  </div>
+
+  <div class="diapo"><div class="izq"><b>1 · Portada</b><span>20 s</span></div><div>
+    <p>"Mi proyecto se llama <b>Bitácora de Obra</b>. Es una app hecha en Flutter que convierte el teléfono en un diario de campo para quienes trabajan en construcción. Cada registro guarda una foto, un texto que se puede dictar y la ubicación GPS donde se hizo."</p>
+  </div></div>
+
+  <div class="diapo"><div class="izq"><b>2 · Problema</b><span>35 s</span></div><div>
+    <p>"En una obra se lleva una bitácora: qué se avanzó, qué falló, qué material llegó. Normalmente es una libreta, y eso tiene cuatro problemas: se moja o se pierde; las fotos quedan sueltas en la galería; no hay forma de probar dónde se hizo cada anotación; y con guantes y prisa casi nadie escribe en el teléfono. La app está pensada para residentes, supervisores y técnicos de campo."</p>
+  </div></div>
+
+  <div class="diapo"><div class="izq"><b>3 · Solución</b><span>40 s</span></div><div>
+    <p>"Por eso cada gadget del teléfono resuelve uno de esos problemas. La <b>cámara</b> o la galería agrega la evidencia. El <b>micrófono</b> permite dictar la descripción y la convierte en texto en vivo. El <b>GPS</b> registra la posición al guardar, y después se ve en un mapa. Además todo se guarda en el teléfono con SQLite, así que funciona aunque en la obra no haya señal."</p>
+  </div></div>
+
+  <div class="diapo"><div class="izq"><b>4 · Cómo funciona</b><span>40 s</span></div><div>
+    <p>"El uso es así: en la pantalla principal veo mis registros. Con <i>Nueva entrada</i> tomo la foto, elijo la categoría y dicto lo que pasó. Al guardar, la app toma la ubicación GPS. En el detalle veo la foto, el texto y un mapa interactivo, y con un botón abro esa ubicación en Google Maps."</p>
+    <p class="accion">Si hay tiempo, reproduce aquí el video de demostración (20 s).</p>
+  </div></div>
+
+  <div class="diapo"><div class="izq"><b>5 · Interfaz</b><span>35 s</span></div><div>
+    <p>"Todas las pantallas usan <b>Scaffold</b> con <b>AppBar</b>, y la principal tiene un <b>Drawer</b> que filtra por categoría. La navegación usa <b>rutas nombradas con Navigator</b>: la lista, el detalle y el formulario tienen cada uno su ruta. Para que se sienta fluida usé la animación <b>Hero</b>: la foto 'vuela' de la lista al detalle. También hay transiciones personalizadas, y el botón del micrófono se anima con el volumen de la voz."</p>
+  </div></div>
+
+  <div class="diapo"><div class="izq"><b>6 · Arquitectura</b><span>40 s</span></div><div>
+    <p>"El código está en tres capas. <b>Presentación</b> es lo que se ve. <b>Dominio</b> tiene las reglas: la entidad Entrada y las interfaces de cada gadget, sin nada de Flutter. <b>Datos</b> tiene las implementaciones reales: SQLite, cámara, micrófono y GPS. Lo importante es que las dependencias apuntan al dominio: las pantallas no saben si los datos vienen de SQLite. Eso es la inversión de dependencias de SOLID, y me permitió probar la app con gadgets simulados."</p>
+  </div></div>
+
+  <div class="diapo"><div class="izq"><b>7 · Datos y errores</b><span>35 s</span></div><div>
+    <p>"Cada entrada se guarda en una tabla de <b>SQLite</b> con su texto, la ruta de la foto y las coordenadas. Las preferencias, como el tema, van en <b>SharedPreferences</b>. La lista se carga con <b>FutureBuilder</b>, que muestra 'cargando', la lista, el estado vacío o un error con botón de reintentar. Y cada capa tiene <b>try-catch</b>: por ejemplo, si el GPS está apagado, la app no se cierra; pregunta si quieres reintentar o guardar sin ubicación."</p>
+  </div></div>
+
+  <div class="diapo"><div class="izq"><b>8 · Resultados</b><span>25 s</span></div><div>
+    <p>"Como resultado, la app integra los tres gadgets, tiene 26 pruebas automáticas que pasan y la probé en un iPhone real. Como siguiente paso me gustaría sincronizarla en la nube para equipos de trabajo y exportar la bitácora a PDF. Gracias. ¿Tienen alguna pregunta?"</p>
+  </div></div>
+
+  <h2>Preguntas probables y cómo responderlas</h2>
+
+  <div class="qa"><b>¿Por qué SQLite y no solo SharedPreferences?</b>
+    <p>Las entradas son registros estructurados que necesito filtrar, ordenar y contar; eso es una base de datos. SharedPreferences es clave-valor para pocos datos simples, así que ahí guardo las preferencias.</p></div>
+
+  <div class="qa"><b>¿La foto se guarda dentro de la base de datos?</b>
+    <p>No. Se copia a la carpeta de documentos de la app y SQLite guarda la ruta. La ruta que da image_picker es temporal y el sistema puede borrarla.</p></div>
+
+  <div class="qa"><b>¿Por qué el Future se crea en initState y no en build?</b>
+    <p>build() se ejecuta muchas veces; si el Future se creara ahí, la consulta se repetiría en cada redibujado. Lo creo una vez y solo lo reemplazo al recargar.</p></div>
+
+  <div class="qa"><b>¿Cómo funciona el Hero?</b>
+    <p>La miniatura de la lista y la cabecera del detalle tienen el mismo <i>tag</i>, y Flutter anima entre las dos al navegar. En el detalle uso FutureBuilder con <i>initialData</i> para que el destino exista desde el primer cuadro.</p></div>
+
+  <div class="qa"><b>¿Dónde aplicas SOLID?</b>
+    <p>Inversión de dependencias: las pantallas usan interfaces del dominio y main.dart crea las implementaciones. Responsabilidad única: una clase abre la base, otra convierte los datos y otra hace las consultas. Segregación de interfaces: una interfaz pequeña por gadget.</p></div>
+
+  <div class="qa"><b>¿Cómo manejas los errores?</b>
+    <p>Cada servicio atrapa los errores técnicos (de plataforma, de base de datos o por tiempo agotado) y los convierte en una excepción propia con un mensaje claro. La pantalla lo muestra en un aviso o en un diálogo con opciones.</p></div>
+
+  <div class="qa"><b>¿Qué pasa si no hay internet?</b>
+    <p>Se guarda todo igual: SQLite y el GPS no necesitan internet. Solo el mapa necesita conexión para descargarse. El dictado puede requerirla según el idioma.</p></div>
+
+  <div class="qa"><b>¿Cómo se convierte la voz en texto?</b>
+    <p>El paquete speech_to_text captura el audio del micrófono y usa el reconocedor del sistema (Apple en iOS, Google en Android). Recibo resultados parciales en vivo y los agrego a la descripción.</p></div>
+
+  <div class="qa"><b>¿Por qué OpenStreetMap y no Google Maps dentro de la app?</b>
+    <p>OpenStreetMap no requiere clave de API ni cuenta de facturación. Para Google Maps hay un botón que abre la app oficial con las coordenadas guardadas.</p></div>
+</body>
+</html>

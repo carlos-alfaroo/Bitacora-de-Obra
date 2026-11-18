@@ -78,7 +78,8 @@
   .indice ol { list-style: none; padding: 0; }
   .indice li { display: flex; gap: 8pt; padding: 4pt 0; border-bottom: 1px dotted var(--linea); }
   .indice .n { color: var(--acento); font-weight: 700; width: 18pt; }
-  .capturas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10pt; }
+  .capturas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12pt 10pt; }
+  .capturas figcaption { font-size: 8.5pt; line-height: 1.3; }
   .capturas figure { margin: 0; }
   .capturas img { width: 100%; border-radius: 10pt; border: 1px solid var(--linea); }
 </style>
@@ -99,7 +100,7 @@
     <dt>Materia</dt><dd>MO2</dd>
     <dt>Entrega</dt><dd>Parcial 2</dd>
     <dt>Fecha</dt><dd>17 de noviembre de 2026</dd>
-    <dt>Plataforma</dt><dd>Flutter 3.44 · Dart 3.12 · Android</dd>
+    <dt>Plataforma</dt><dd>Flutter 3.44 · Dart 3.12 · iOS y Android</dd>
   </dl>
 </section>
 
@@ -116,6 +117,7 @@
     <li><span class="n">7</span>Manejo de errores</li>
     <li><span class="n">8</span>Cumplimiento de requisitos</li>
     <li><span class="n">9</span>Pruebas y calidad del código</li>
+    <li><span class="n">10</span>Evidencia de funcionamiento</li>
   </ol>
 </section>
 
@@ -691,7 +693,8 @@ flowchart LR
   <h2><span class="num">9</span>Pruebas y calidad del código</h2>
   <p><code>flutter analyze</code> no reporta ningún problema y las <strong>26 pruebas</strong> de
     <code>flutter test</code> pasan. Como las pantallas dependen de interfaces, los flujos completos se
-    prueban con gadgets simulados, sin GPS, cámara ni micrófono reales.</p>
+    prueban con gadgets simulados, sin GPS, cámara ni micrófono reales. Además, la app se probó
+    manualmente en un iPhone real (sección 10).</p>
   <table style="break-inside: avoid">
     <tr><th style="width:40%">Archivo</th><th style="width:8%">Pruebas</th><th>Qué verifica</th></tr>
     <tr><td><code>test/datos/mapeador_entrada_test.dart</code></td><td>6</td><td>Conversión de ida y vuelta, fecha en milisegundos, ubicación incompleta, categoría desconocida y fila inválida</td></tr>
@@ -704,6 +707,31 @@ flowchart LR
     corrigieron antes de entregar. El primero: <code>setState(() =&gt; _futuro = …)</code> devolvía un
     <code>Future</code> dentro de <code>setState</code>. El segundo: la cabecera del Drawer se desbordaba
     con textos largos.</div>
+</section>
+
+
+<!-- ═════════════════════════════ 10. EVIDENCIA ═════════════════════════════ -->
+<section>
+  <h2><span class="num">10</span>Evidencia de funcionamiento</h2>
+  <p>La app se instaló en modo release en un <strong>iPhone 11 Pro con iOS 18.0.1</strong> y se probaron
+    los tres gadgets: cámara, micrófono con voz a texto y GPS. También compila para Android. Las capturas
+    son del teléfono real, con el modo oscuro del sistema activado.</p>
+  <div class="nota">Por privacidad, en las capturas se difuminaron las coordenadas, la dirección y los
+    nombres de calles del lugar donde se hicieron las pruebas.</div>
+  <div class="capturas">
+    <figure><img src="../capturas_presentacion/01_lista.png" alt="Lista de entradas: Scaffold, AppBar y FutureBuilder"><figcaption>Lista de entradas: Scaffold, AppBar y FutureBuilder</figcaption></figure>
+    <figure><img src="../capturas_presentacion/02_drawer.png" alt="Drawer con filtros por categoría y contadores"><figcaption>Drawer con filtros por categoría y contadores</figcaption></figure>
+    <figure><img src="../capturas_presentacion/05_camara.png" alt="Cámara del dispositivo desde el formulario"><figcaption>Cámara del dispositivo desde el formulario</figcaption></figure>
+    <figure><img src="../capturas_presentacion/07_dictado.png" alt="Dictado por voz en curso"><figcaption>Dictado por voz en curso</figcaption></figure>
+    <figure><img src="../capturas_presentacion/16_permisos_ios.png" alt="Permisos concedidos: ubicación, micrófono, voz y cámara"><figcaption>Permisos concedidos: ubicación, micrófono, voz y cámara</figcaption></figure>
+    <figure><img src="../capturas_presentacion/08_detalle.png" alt="Detalle: foto, descripción y mapa interactivo"><figcaption>Detalle: foto, descripción y mapa interactivo</figcaption></figure>
+    <figure><img src="../capturas_presentacion/10_google_maps.png" alt="Ubicación guardada abierta en Google Maps"><figcaption>Ubicación guardada abierta en Google Maps</figcaption></figure>
+    <figure><img src="../capturas_presentacion/11_visor.png" alt="Visor a pantalla completa (destino del Hero)"><figcaption>Visor a pantalla completa (destino del Hero)</figcaption></figure>
+    <figure><img src="../capturas_presentacion/12_mapa_general.png" alt="Mapa general con las entradas geolocalizadas"><figcaption>Mapa general con las entradas geolocalizadas</figcaption></figure>
+    <figure><img src="../capturas_presentacion/13_error_gps.png" alt="Manejo de errores: GPS desactivado"><figcaption>Manejo de errores: GPS desactivado</figcaption></figure>
+    <figure><img src="../capturas_presentacion/14_ajustes.png" alt="Ajustes guardados con SharedPreferences"><figcaption>Ajustes guardados con SharedPreferences</figcaption></figure>
+    <figure><img src="../capturas_presentacion/15_vacio_filtro.png" alt="Estado vacío al filtrar una categoría"><figcaption>Estado vacío al filtrar una categoría</figcaption></figure>
+  </div>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>

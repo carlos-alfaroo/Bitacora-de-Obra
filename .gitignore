@@ -46,3 +46,6 @@ app.*.map.json
 
 # Caché de compilación de Kotlin
 android/.kotlin/
+
+# Capturas originales del teléfono (contienen la ubicación real); en el repo van las copias difuminadas
+docs/capturas/

@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bitácora de Obra — Presentación</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0" rel="stylesheet">
+<style>
+  :root {
+    --fondo: #fff8f3;
+    --tinta: #1f1a17;
+    --tenue: #6b625b;
+    --acento: #c35a0e;
+    --acento-2: #e2711d;
+    --suave: #fbe6d6;
+    --linea: #eadfd6;
+    --verde: #2e7d32;
+  }
+  @page { size: 1280px 720px; margin: 0; }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #fff; color: var(--tinta); font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; }
+  .ms { font-family: "Material Symbols Rounded"; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; white-space: nowrap; -webkit-font-feature-settings: "liga"; font-feature-settings: "liga"; -webkit-font-smoothing: antialiased; }
+
+  .slide {
+    width: 1280px; height: 720px; position: relative; overflow: hidden;
+    background: var(--fondo); padding: 56px 72px; break-after: page;
+  }
+  .slide:last-child { break-after: auto; }
+  .num { position: absolute; right: 40px; bottom: 26px; font-size: 15px; color: var(--tenue); }
+  .marca { position: absolute; left: 72px; bottom: 26px; font-size: 15px; color: var(--tenue); display: flex; align-items: center; gap: 8px; }
+  .marca .punto { width: 10px; height: 10px; border-radius: 50%; background: var(--acento-2); }
+  .ceja { font-size: 18px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--acento); }
+  h2 { font-size: 46px; line-height: 1.1; font-weight: 800; letter-spacing: -.01em; margin-top: 8px; }
+  .bajada { font-size: 22px; color: var(--tenue); margin-top: 10px; }
+
+  .telefono {
+    border-radius: 30px; overflow: hidden; background: #000;
+    border: 7px solid #1f1a17; box-shadow: 0 22px 44px rgba(80, 40, 10, .22);
+  }
+  .telefono img { display: block; width: 100%; }
+
+  /* 1 · Portada */
+  .portada { display: grid; grid-template-columns: 1fr 560px; align-items: center; padding-right: 40px; }
+  .portada h1 { font-size: 84px; line-height: 1; font-weight: 850; letter-spacing: -.02em; margin: 14px 0 20px; }
+  .portada .sub { font-size: 28px; line-height: 1.35; color: var(--tenue); max-width: 560px; }
+  .portada .meta { margin-top: 44px; font-size: 21px; line-height: 1.6; }
+  .portada .meta b { font-weight: 700; }
+  .portada .chips { display: flex; gap: 10px; margin-top: 18px; }
+  .chip { background: var(--suave); color: var(--acento); font-weight: 700; font-size: 16px; padding: 7px 14px; border-radius: 99px; }
+  .duo { position: relative; height: 620px; }
+  .duo .telefono { position: absolute; width: 250px; }
+  .duo .t1 { left: 0; top: 56px; transform: rotate(-6deg); }
+  .duo .t2 { left: 285px; top: 0; transform: rotate(5deg); }
+  .franja { position: absolute; left: 0; top: 0; width: 100%; height: 10px; background: linear-gradient(90deg, var(--acento), #e9a23b); }
+
+  /* 2 · Problema */
+  .tarjetas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 46px; }
+  .tarjeta { background: #fff; border: 1px solid var(--linea); border-radius: 22px; padding: 28px 24px; min-height: 270px; }
+  .tarjeta .ms { font-size: 46px; color: var(--acento); background: var(--suave); border-radius: 16px; padding: 12px; }
+  .tarjeta h3 { font-size: 26px; margin-top: 22px; line-height: 1.15; }
+  .tarjeta p { font-size: 19px; color: var(--tenue); margin-top: 10px; line-height: 1.4; }
+  .nota-inferior { margin-top: 34px; font-size: 21px; color: var(--tenue); display: flex; align-items: center; gap: 10px; }
+  .nota-inferior .ms { color: var(--acento); font-size: 28px; }
+
+  /* 3 · Solución */
+  .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 26px; align-items: start; }
+  .gadget { display: grid; grid-template-columns: 170px 1fr; gap: 20px; align-items: center; }
+  .gadget .telefono { width: 170px; border-width: 5px; border-radius: 22px; }
+  .gadget .etiqueta { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 22px; color: var(--acento); }
+  .gadget .etiqueta .ms { font-size: 30px; }
+  .gadget h3 { font-size: 24px; line-height: 1.2; margin-top: 10px; }
+  .gadget p { font-size: 18px; color: var(--tenue); margin-top: 8px; line-height: 1.4; }
+  .banda {
+    margin-top: 34px; background: var(--tinta); color: #fff; border-radius: 18px;
+    padding: 18px 26px; font-size: 22px; display: flex; align-items: center; gap: 14px;
+  }
+  .banda .ms { font-size: 32px; color: #f6b37c; }
+
+  /* 4 · Flujo */
+  .flujo { display: flex; align-items: flex-start; justify-content: space-between; margin-top: 26px; }
+  .paso { width: 206px; text-align: center; }
+  .paso .telefono { width: 160px; margin: 0 auto; border-width: 5px; border-radius: 24px; }
+  .paso .n { display: inline-flex; width: 34px; height: 34px; border-radius: 50%; background: var(--acento); color: #fff; font-weight: 800; align-items: center; justify-content: center; font-size: 18px; margin-top: 16px; }
+  .paso h3 { font-size: 21px; margin-top: 8px; }
+  .paso p { font-size: 16px; color: var(--tenue); margin-top: 4px; line-height: 1.35; }
+  .flecha { font-size: 44px; color: var(--acento-2); margin-top: 160px; }
+
+  /* 5 · Interfaz */
+  .dos { display: grid; grid-template-columns: 218px 1fr; gap: 64px; align-items: center; margin-top: 14px; }
+  .dos .telefono { width: 218px; }
+  .puntos { display: grid; gap: 22px; }
+  .punto { display: grid; grid-template-columns: 58px 1fr; gap: 18px; align-items: start; }
+  .punto .ms { font-size: 32px; color: var(--acento); background: var(--suave); border-radius: 14px; padding: 12px; }
+  .punto h3 { font-size: 25px; }
+  .punto p { font-size: 19px; color: var(--tenue); margin-top: 4px; line-height: 1.4; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size: .9em; background: #fff; border: 1px solid var(--linea); border-radius: 6px; padding: 1px 6px; color: var(--tinta); }
+
+  /* 6 · Arquitectura */
+  .arq { margin-top: 30px; display: grid; grid-template-columns: 1fr 70px 1fr 70px 1fr; align-items: stretch; }
+  .capa { background: #fff; border: 2px solid var(--linea); border-radius: 22px; padding: 24px; }
+  .capa.centro { border-color: var(--acento); background: var(--suave); }
+  .capa h3 { font-size: 26px; display: flex; align-items: center; gap: 10px; }
+  .capa h3 .ms { font-size: 30px; color: var(--acento); }
+  .capa .tag { font-size: 15px; font-weight: 700; color: var(--tenue); text-transform: uppercase; letter-spacing: .08em; margin-top: 6px; }
+  .capa ul { list-style: none; padding: 0; margin-top: 16px; display: grid; gap: 9px; }
+  .capa li { font-size: 18px; background: rgba(255,255,255,.8); border: 1px solid var(--linea); border-radius: 10px; padding: 8px 12px; }
+  .conector { display: flex; align-items: center; justify-content: center; color: var(--acento); }
+  .conector .ms { font-size: 46px; }
+  .conector small { display: block; }
+  .regla { margin-top: 30px; display: flex; gap: 16px; }
+  .regla div { flex: 1; background: #fff; border: 1px solid var(--linea); border-radius: 16px; padding: 16px 20px; font-size: 19px; line-height: 1.4; }
+  .regla b { color: var(--acento); }
+
+  /* 7 · Datos y errores */
+  .datos { display: grid; grid-template-columns: 1fr 250px; gap: 50px; margin-top: 18px; align-items: center; }
+  .bloque { background: #fff; border: 1px solid var(--linea); border-radius: 20px; padding: 18px 24px; margin-bottom: 14px; }
+  .bloque h3 { font-size: 23px; display: flex; align-items: center; gap: 10px; }
+  .bloque h3 .ms { color: var(--acento); font-size: 28px; }
+  .bloque p { font-size: 18px; color: var(--tenue); margin-top: 8px; line-height: 1.4; }
+  .columnas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .columnas span { font-family: "SF Mono", Menlo, monospace; font-size: 15px; background: var(--suave); color: var(--acento); border-radius: 8px; padding: 5px 10px; font-weight: 600; }
+  .columnas span.meta { background: var(--tinta); color: #fff; }
+  .estados { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .estados span { font-size: 16px; border: 1px solid var(--linea); border-radius: 99px; padding: 5px 12px; background: #fffaf6; }
+  .datos .telefono { width: 198px; margin: 0 auto; }
+  .pie-foto { font-size: 15px; color: var(--tenue); text-align: center; margin-top: 12px; line-height: 1.35; }
+
+  /* 8 · Cierre */
+  .metricas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px; }
+  .metrica { background: #fff; border: 1px solid var(--linea); border-radius: 22px; padding: 26px 22px; }
+  .metrica .valor { font-size: 52px; font-weight: 850; color: var(--acento); line-height: 1; }
+  .metrica .texto { font-size: 19px; color: var(--tenue); margin-top: 12px; line-height: 1.35; }
+  .futuro { margin-top: 30px; font-size: 21px; color: var(--tenue); }
+  .futuro b { color: var(--tinta); }
+  .gracias {
+    position: absolute; left: 72px; right: 72px; bottom: 70px; height: 150px; border-radius: 26px;
+    background: linear-gradient(100deg, var(--acento), #e9a23b); color: #fff;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 44px;
+  }
+  .gracias h2 { font-size: 54px; margin: 0; }
+  .gracias span { font-size: 24px; opacity: .92; }
+</style>
+</head>
+<body>
+
+<!-- 1 · PORTADA -->
+<section class="slide portada">
+  <div class="franja"></div>
+  <div>
+    <div class="ceja">MO2 · Parcial 2</div>
+    <h1>Bitácora<br>de Obra</h1>
+    <p class="sub">Un diario de campo en el teléfono: cada registro lleva foto, texto dictado y ubicación GPS.</p>
+    <div class="meta"><b>Carlos Alfaro</b><br>Noviembre 2026</div>
+    <div class="chips"><span class="chip">Flutter</span><span class="chip">iOS y Android</span><span class="chip">SQLite</span></div>
+  </div>
+  <div class="duo">
+    <div class="telefono t1"><img src="../capturas_presentacion/01_lista.png" alt="Lista de entradas"></div>
+    <div class="telefono t2"><img src="../capturas_presentacion/08_detalle.png" alt="Detalle de una entrada"></div>
+  </div>
+</section>
+
+<!-- 2 · PROBLEMA -->
+<section class="slide">
+  <div class="ceja">El problema</div>
+  <h2>La bitácora de obra en papel no alcanza</h2>
+  <div class="tarjetas">
+    <div class="tarjeta">
+      <span class="ms">water_drop</span>
+      <h3>Se pierde o se moja</h3>
+      <p>La libreta se daña en la obra y con ella todo el historial.</p>
+    </div>
+    <div class="tarjeta">
+      <span class="ms">hide_image</span>
+      <h3>Fotos sin contexto</h3>
+      <p>La evidencia queda suelta en la galería, sin texto ni fecha.</p>
+    </div>
+    <div class="tarjeta">
+      <span class="ms">location_off</span>
+      <h3>Sin prueba de lugar</h3>
+      <p>No se puede demostrar dónde se hizo cada registro.</p>
+    </div>
+    <div class="tarjeta">
+      <span class="ms">back_hand</span>
+      <h3>Escribir es lento</h3>
+      <p>Con guantes y prisa nadie escribe párrafos en el teléfono.</p>
+    </div>
+  </div>
+  <p class="nota-inferior"><span class="ms">engineering</span>Para residentes y supervisores de obra, contratistas y técnicos de campo.</p>
+  <div class="marca"><span class="punto"></span>Bitácora de Obra</div><div class="num">2</div>
+</section>
+
+<!-- 3 · SOLUCIÓN -->
+<section class="slide">
+  <div class="ceja">La solución</div>
+  <h2>Un gadget del teléfono para cada problema</h2>
+  <div class="trio">
+    <div class="gadget">
+      <div class="telefono"><img src="../capturas_presentacion/11_visor.png" alt="Foto de evidencia"></div>
+      <div>
+        <span class="etiqueta"><span class="ms">photo_camera</span>Cámara</span>
+        <h3>Evidencia en cada registro</h3>
+        <p>Foto con la cámara o de la galería, ligada al texto y la fecha.</p>
+      </div>
+    </div>
+    <div class="gadget">
+      <div class="telefono"><img src="../capturas_presentacion/07_dictado.png" alt="Dictado por voz"></div>
+      <div>
+        <span class="etiqueta"><span class="ms">mic</span>Micrófono</span>
+        <h3>Dictar en vez de escribir</h3>
+        <p>La voz se convierte en texto en vivo, sin quitarse los guantes.</p>
+      </div>
+    </div>
+    <div class="gadget">
+      <div class="telefono"><img src="../capturas_presentacion/08_detalle.png" alt="Mapa de la ubicación"></div>
+      <div>
+        <span class="etiqueta"><span class="ms">location_on</span>GPS</span>
+        <h3>Prueba de dónde se hizo</h3>
+        <p>Se guarda la posición al guardar; se ve en un mapa y en Google Maps.</p>
+      </div>
+    </div>
+  </div>
+  <div class="banda"><span class="ms">cloud_off</span>Todo se guarda en el teléfono con SQLite: funciona en obra aunque no haya señal.</div>
+  <div class="marca"><span class="punto"></span>Bitácora de Obra</div><div class="num">3</div>
+</section>
+
+<!-- 4 · FLUJO -->
+<section class="slide">
+  <div class="ceja">Cómo funciona</div>
+  <h2>Registrar algo en la obra, en 4 pasos</h2>
+  <div class="flujo">
+    <div class="paso">
+      <div class="telefono"><img src="../capturas_presentacion/01_lista.png" alt=""></div>
+      <span class="n">1</span><h3>Ver la bitácora</h3><p>Lista de registros con foto, fecha y GPS</p>
+    </div>
+    <span class="ms flecha">arrow_forward</span>
+    <div class="paso">
+      <div class="telefono"><img src="../capturas_presentacion/07_dictado.png" alt=""></div>
+      <span class="n">2</span><h3>Nueva entrada</h3><p>Foto, categoría y descripción dictada</p>
+    </div>
+    <span class="ms flecha">arrow_forward</span>
+    <div class="paso">
+      <div class="telefono"><img src="../capturas_presentacion/08_detalle.png" alt=""></div>
+      <span class="n">3</span><h3>Guardar y ver</h3><p>Se captura el GPS y se muestra en el mapa</p>
+    </div>
+    <span class="ms flecha">arrow_forward</span>
+    <div class="paso">
+      <div class="telefono"><img src="../capturas_presentacion/10_google_maps.png" alt=""></div>
+      <span class="n">4</span><h3>Abrir en Maps</h3><p>Un botón lleva a Google Maps</p>
+    </div>
+  </div>
+  <div class="marca"><span class="punto"></span>Bitácora de Obra</div><div class="num">4</div>
+</section>
+
+<!-- 5 · INTERFAZ Y NAVEGACIÓN -->
+<section class="slide">
+  <div class="ceja">Interfaz y navegación</div>
+  <h2>Pantallas claras y transiciones fluidas</h2>
+  <div class="dos">
+    <div class="telefono"><img src="../capturas_presentacion/02_drawer.png" alt="Drawer"></div>
+    <div class="puntos">
+      <div class="punto"><span class="ms">dashboard</span><div><h3>Scaffold + AppBar + Drawer</h3><p>La estructura de cada pantalla. El menú lateral filtra por categoría y muestra cuántos registros hay.</p></div></div>
+      <div class="punto"><span class="ms">alt_route</span><div><h3>Rutas nombradas con Navigator</h3><p><code>/</code> lista · <code>/entrada</code> detalle · <code>/entrada/nueva</code> formulario</p></div></div>
+      <div class="punto"><span class="ms">animation</span><div><h3>Animación Hero</h3><p>La foto "vuela" de la lista al detalle y de ahí a pantalla completa.</p></div></div>
+      <div class="punto"><span class="ms">auto_awesome</span><div><h3>Más animaciones</h3><p>Transiciones entre pantallas y un micrófono que reacciona al volumen de la voz.</p></div></div>
+    </div>
+  </div>
+  <div class="marca"><span class="punto"></span>Bitácora de Obra</div><div class="num">5</div>
+</section>
+
+<!-- 6 · ARQUITECTURA -->
+<section class="slide">
+  <div class="ceja">Arquitectura</div>
+  <h2>Código organizado en tres capas</h2>
+  <div class="arq">
+    <div class="capa">
+      <h3><span class="ms">smartphone</span>Presentación</h3>
+      <div class="tag">Lo que se ve</div>
+      <ul><li>Pantallas y widgets</li><li>Rutas y navegación</li><li>Tema claro / oscuro</li></ul>
+    </div>
+    <div class="conector"><span class="ms">arrow_forward</span></div>
+    <div class="capa centro">
+      <h3><span class="ms">hub</span>Dominio</h3>
+      <div class="tag">Las reglas, sin Flutter</div>
+      <ul><li>Entidad <b>Entrada</b></li><li>Interfaces de cada gadget</li><li>Interfaz del repositorio</li></ul>
+    </div>
+    <div class="conector"><span class="ms">arrow_back</span></div>
+    <div class="capa">
+      <h3><span class="ms">memory</span>Datos</h3>
+      <div class="tag">Paquetes y hardware</div>
+      <ul><li>SQLite · SharedPreferences</li><li>Cámara · Micrófono</li><li>GPS · Google Maps</li></ul>
+    </div>
+  </div>
+  <div class="regla">
+    <div><b>Las flechas apuntan al dominio.</b> Las pantallas no saben si los datos vienen de SQLite o de otro lado.</div>
+    <div><b>SOLID:</b> una clase por responsabilidad, una interfaz por gadget e inversión de dependencias.</div>
+    <div><b>Ventaja:</b> se prueba todo con gadgets simulados y se puede cambiar una pieza sin tocar el resto.</div>
+  </div>
+  <div class="marca"><span class="punto"></span>Bitácora de Obra</div><div class="num">6</div>
+</section>
+
+<!-- 7 · DATOS Y ERRORES -->
+<section class="slide">
+  <div class="ceja">Datos y errores</div>
+  <h2>Guarda todo localmente y no se rompe</h2>
+  <div class="datos">
+    <div>
+      <div class="bloque">
+        <h3><span class="ms">database</span>SQLite · tabla <code>entradas</code></h3>
+        <div class="columnas"><span>titulo</span><span>descripcion</span><span>categoria</span><span>fecha</span><span class="meta">ruta_imagen</span><span class="meta">latitud</span><span class="meta">longitud</span></div>
+        <p>SharedPreferences guarda las preferencias: tema, orden e idioma del dictado.</p>
+      </div>
+      <div class="bloque">
+        <h3><span class="ms">hourglass_top</span>FutureBuilder</h3>
+        <p>Carga los registros sin congelar la pantalla y muestra cada estado:</p>
+        <div class="estados"><span>Cargando…</span><span>Lista</span><span>Vacía</span><span>Error + Reintentar</span></div>
+      </div>
+      <div class="bloque">
+        <h3><span class="ms">shield</span>try-catch en cada capa</h3>
+        <p>Los errores de GPS, cámara, micrófono o base de datos se convierten en mensajes claros para el usuario.</p>
+      </div>
+    </div>
+    <div>
+      <div class="telefono"><img src="../capturas_presentacion/13_error_gps.png" alt="Diálogo de error de GPS"></div>
+      <p class="pie-foto">GPS apagado: la app ofrece reintentar, abrir ajustes o guardar sin ubicación.</p>
+    </div>
+  </div>
+  <div class="marca"><span class="punto"></span>Bitácora de Obra</div><div class="num">7</div>
+</section>
+
+<!-- 8 · RESULTADOS -->
+<section class="slide">
+  <div class="ceja">Resultados</div>
+  <h2>Funciona en un teléfono real</h2>
+  <div class="metricas">
+    <div class="metrica"><div class="valor">3</div><div class="texto">gadgets integrados: cámara, micrófono y GPS</div></div>
+    <div class="metrica"><div class="valor">26</div><div class="texto">pruebas automáticas que pasan</div></div>
+    <div class="metrica"><div class="valor">0</div><div class="texto">problemas en el análisis de código</div></div>
+    <div class="metrica"><div class="valor">iOS</div><div class="texto">probada en iPhone 11 Pro; también compila para Android</div></div>
+  </div>
+  <p class="futuro"><b>Siguiente paso:</b> sincronizar en la nube para equipos, exportar la bitácora a PDF y firmar los registros.</p>
+  <div class="gracias"><h2>¡Gracias!</h2><span>¿Preguntas?</span></div>
+  <div class="num">8</div>
+</section>
+
+</body>
+</html>
