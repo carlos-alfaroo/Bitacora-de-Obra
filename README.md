@@ -70,7 +70,7 @@ Principios SOLID aplicados:
 
 ## Ejecutar
 
-Requisitos: Flutter 3.44 o superior (Dart 3.12) y un dispositivo o emulador Android con Google Play Services para el dictado.
+Requisitos: Flutter 3.44 o superior (Dart 3.12). En Android, un dispositivo con Google Play Services para el dictado; en iOS, Xcode 26 o superior.
 
 ```bash
 flutter pub get
@@ -79,9 +79,11 @@ flutter test           # 26 pruebas de unidad y de widgets
 flutter build apk      # APK de release
 ```
 
+En iOS no hace falta CocoaPods: el proyecto usa Swift Package Manager (`enable-swift-package-manager` en `pubspec.yaml`). Para un iPhone físico, la primera vez abre `ios/Runner.xcworkspace` en Xcode y elige tu equipo en *Runner → Signing & Capabilities → Team*. Para usar la app sin la Mac conectada, instálala con `flutter run --release`.
+
 Notas:
 
-- El dictado usa el reconocedor de voz del sistema (Google). Sin internet funciona si el paquete de idioma sin conexión está descargado.
+- El dictado usa el reconocedor de voz del sistema (Google en Android, Apple en iOS). Sin internet funciona si el paquete de idioma sin conexión está descargado.
 - El mapa necesita internet para descargar las teselas. Las coordenadas se guardan siempre, aunque no haya conexión.
 - En el emulador puedes simular la ubicación desde *Extended controls → Location*.
 
