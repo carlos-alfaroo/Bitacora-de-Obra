@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reporte Técnico — Bitácora de Obra</title>
+<style>
+  :root {
+    --tinta: #1d1b19;
+    --tenue: #5c5752;
+    --linea: #e4ddd6;
+    --fondo-suave: #faf6f2;
+    --acento: #c35a0e;
+    --acento-claro: #fbe9db;
+  }
+  @page { size: letter; margin: 18mm 17mm 18mm 17mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--tinta);
+    font: 10.5pt/1.5 -apple-system, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  }
+  h1, h2, h3 { line-height: 1.2; color: var(--tinta); }
+  h2 {
+    font-size: 17pt; margin: 0 0 10pt; padding-bottom: 6pt;
+    border-bottom: 2px solid var(--acento); break-after: avoid; margin-top: 26pt;
+  }
+  h3 { break-after: avoid; }
+  .portada, .indice { break-after: page; }
+  .indice h2, section:first-of-type h2 { margin-top: 0; }
+  h2 .num { color: var(--acento); margin-right: 6pt; }
+  h3 { font-size: 12pt; margin: 16pt 0 6pt; }
+  p { margin: 0 0 8pt; }
+  ul, ol { margin: 0 0 8pt; padding-left: 18pt; }
+  li { margin-bottom: 3pt; }
+  code {
+    font: 9pt/1.4 "SF Mono", Menlo, Consolas, monospace;
+    background: var(--fondo-suave); padding: 0 3pt; border-radius: 3pt;
+  }
+  pre {
+    font: 8.5pt/1.45 "SF Mono", Menlo, Consolas, monospace;
+    background: var(--fondo-suave); border: 1px solid var(--linea);
+    border-radius: 6pt; padding: 8pt 10pt; margin: 0 0 10pt; white-space: pre-wrap;
+    break-inside: avoid;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 12pt; font-size: 9.5pt; break-inside: auto; }
+  th, td { text-align: left; vertical-align: top; padding: 5pt 7pt; border-bottom: 1px solid var(--linea); }
+  th { background: var(--fondo-suave); font-weight: 700; border-bottom: 1.5px solid #cfc6bd; }
+  tr { break-inside: avoid; }
+  figure { margin: 6pt 0 14pt; break-inside: avoid; }
+  figcaption { font-size: 9pt; color: var(--tenue); margin-top: 5pt; text-align: center; }
+  .diagrama { border: 1px solid var(--linea); border-radius: 8pt; padding: 10pt; background: #fff; text-align: center; }
+  .diagrama pre.mermaid { background: none; border: 0; padding: 0; margin: 0; white-space: normal; font: inherit; }
+  .diagrama svg { max-width: 100% !important; max-height: 205mm; height: auto; }
+  .nota {
+    background: var(--acento-claro); border-left: 3px solid var(--acento);
+    padding: 7pt 10pt; border-radius: 0 6pt 6pt 0; margin: 6pt 0 12pt; font-size: 9.8pt;
+    break-inside: avoid;
+  }
+  .columnas { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .tarjeta { border: 1px solid var(--linea); border-radius: 8pt; padding: 9pt 11pt; break-inside: avoid; }
+  .tarjeta h4 { margin: 0 0 4pt; font-size: 10.5pt; color: var(--acento); }
+  .tarjeta p { margin: 0; font-size: 9.8pt; }
+
+  /* Portada */
+  .portada { height: 240mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .portada .franja { height: 8pt; background: linear-gradient(90deg, var(--acento), #e9a23b); border-radius: 4pt; }
+  .portada .titulo { margin-top: 55mm; }
+  .portada .etiqueta { color: var(--acento); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 10pt; }
+  .portada h1 { font-size: 34pt; margin: 6pt 0 8pt; }
+  .portada .subtitulo { font-size: 14pt; color: var(--tenue); max-width: 125mm; }
+  .portada dl { display: grid; grid-template-columns: 34mm 1fr; gap: 4pt 10pt; font-size: 10.5pt; margin: 0; }
+  .portada dt { color: var(--tenue); }
+  .portada dd { margin: 0; font-weight: 600; }
+
+  .indice ol { list-style: none; padding: 0; }
+  .indice li { display: flex; gap: 8pt; padding: 4pt 0; border-bottom: 1px dotted var(--linea); }
+  .indice .n { color: var(--acento); font-weight: 700; width: 18pt; }
+  .capturas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10pt; }
+  .capturas figure { margin: 0; }
+  .capturas img { width: 100%; border-radius: 10pt; border: 1px solid var(--linea); }
+</style>
+</head>
+<body>
+
+<!-- ═════════════════════════════ PORTADA ═════════════════════════════ -->
+<section class="portada">
+  <div class="franja"></div>
+  <div class="titulo">
+    <div class="etiqueta">MO2 · Parcial 2 · Reporte técnico</div>
+    <h1>Bitácora de Obra</h1>
+    <p class="subtitulo">Diario de campo móvil con evidencia fotográfica, dictado por voz y
+      geolocalización, desarrollado en Flutter.</p>
+  </div>
+  <dl>
+    <dt>Alumno</dt><dd>Carlos Alfaro</dd>
+    <dt>Materia</dt><dd>MO2</dd>
+    <dt>Entrega</dt><dd>Parcial 2</dd>
+    <dt>Fecha</dt><dd>17 de noviembre de 2026</dd>
+    <dt>Plataforma</dt><dd>Flutter 3.44 · Dart 3.12 · Android</dd>
+  </dl>
+</section>
+
+<!-- ═════════════════════════════ ÍNDICE ═════════════════════════════ -->
+<section class="indice">
+  <h2>Contenido</h2>
+  <ol>
+    <li><span class="n">1</span>Justificación del proyecto</li>
+    <li><span class="n">2</span>Arquitectura por capas</li>
+    <li><span class="n">3</span>Diagrama de clases</li>
+    <li><span class="n">4</span>Flujo de datos</li>
+    <li><span class="n">5</span>Navegación y animaciones</li>
+    <li><span class="n">6</span>Almacenamiento local</li>
+    <li><span class="n">7</span>Manejo de errores</li>
+    <li><span class="n">8</span>Cumplimiento de requisitos</li>
+    <li><span class="n">9</span>Pruebas y calidad del código</li>
+  </ol>
+</section>
+
+<!-- ═════════════════════════════ 1. JUSTIFICACIÓN ═════════════════════════════ -->
+<section>
+  <h2><span class="num">1</span>Justificación del proyecto</h2>
+
+  <h3>1.1 El problema</h3>
+  <p>La <strong>bitácora de obra</strong> es el registro diario de lo que ocurre en una construcción:
+    avances, incidencias, entregas de material, visitas de inspección y condiciones de seguridad.
+    En la obra pública mexicana es un documento exigido por la Ley de Obras Públicas y Servicios
+    Relacionados con las Mismas, y en la obra privada es la práctica habitual para dejar constancia
+    ante el cliente.</p>
+  <p>En la práctica se lleva en libretas de papel o en notas sueltas del teléfono. Eso causa cinco problemas
+    concretos:</p>
+  <ol>
+    <li><strong>Pérdida y deterioro.</strong> La libreta se moja, se ensucia o se extravía, y con ella el historial.</li>
+    <li><strong>Evidencia desconectada.</strong> Las fotos quedan en la galería, sin relación con el texto ni con la fecha del registro.</li>
+    <li><strong>Sin prueba de lugar.</strong> No se puede demostrar en qué frente o en qué obra se hizo cada anotación.</li>
+    <li><strong>Escribir en sitio es lento.</strong> Con guantes, polvo y prisa nadie escribe párrafos en el teléfono, así que los registros quedan incompletos.</li>
+    <li><strong>Sin conectividad.</strong> Muchas obras no tienen señal, y las apps en la nube no funcionan ahí.</li>
+  </ol>
+
+  <h3>1.2 Usuarios</h3>
+  <p>Residentes y supervisores de obra, contratistas pequeños y técnicos de mantenimiento: cualquier
+    persona que necesite documentar trabajo de campo con evidencia.</p>
+
+  <h3>1.3 Cómo lo resuelve la app</h3>
+  <p>Cada gadget del dispositivo responde a uno de los problemas anteriores:</p>
+  <table>
+    <tr><th style="width:28%">Problema</th><th style="width:44%">Solución</th><th>Gadget / tecnología</th></tr>
+    <tr><td>Evidencia desconectada</td><td>Cada entrada lleva su foto, tomada en el momento o elegida de la galería.</td><td>Cámara y galería (<code>image_picker</code>)</td></tr>
+    <tr><td>Escribir en sitio es lento</td><td>La descripción se dicta con el micrófono y se transcribe en vivo. El texto dictado se agrega al que ya había.</td><td>Micrófono y voz a texto (<code>speech_to_text</code>)</td></tr>
+    <tr><td>Sin prueba de lugar</td><td>Al guardar se captura la posición GPS con su precisión. El detalle la muestra en un mapa interactivo y la abre en Google Maps.</td><td>GPS (<code>geolocator</code>), mapa (<code>flutter_map</code>), <code>url_launcher</code></td></tr>
+    <tr><td>Pérdida y sin conectividad</td><td>Todo se guarda en el teléfono con SQLite. No hace falta internet para registrar.</td><td><code>sqflite</code>, <code>shared_preferences</code></td></tr>
+    <tr><td>Información difícil de encontrar</td><td>Categorías (avance, incidencia, seguridad, materiales, inspección), filtro desde el Drawer y mapa con todas las entradas.</td><td>Drawer y mapa general</td></tr>
+  </table>
+
+  <h3>1.4 Alcance</h3>
+  <p>La versión entregada es de uso individual y sin conexión: crea, consulta, edita y elimina entradas con
+    foto, texto dictado y ubicación. Quedan como trabajo futuro la sincronización en la nube para equipos,
+    la exportación de la bitácora a PDF y la firma digital de las entradas.</p>
+</section>
+
+<!-- ═════════════════════════════ 2. ARQUITECTURA ═════════════════════════════ -->
+<section>
+  <h2><span class="num">2</span>Arquitectura por capas</h2>
+  <p>El código se divide en tres capas y un núcleo compartido. La regla es que <strong>las dependencias
+    apuntan hacia el dominio</strong>. El dominio no conoce Flutter ni ningún paquete externo. La capa de
+    datos <em>implementa</em> sus interfaces, y la presentación sólo <em>usa</em> esas interfaces.
+    El único archivo que conoce las clases concretas es <code>main.dart</code>, que funciona como
+    raíz de composición.</p>
+
+  <figure>
+    <div class="diagrama"><pre class="mermaid">
+flowchart TB
+  main["<b>main.dart</b> · raíz de composición<br/>crea las implementaciones concretas"]
+  subgraph P["Presentación · Flutter"]
+    direction TB
+    pan["Pantallas y widgets"] ~~~ nav["Rutas · GeneradorRutas"] ~~~ dep["Dependencias<br/>(InheritedWidget)"]
+  end
+  subgraph DA["Datos · paquetes externos"]
+    direction TB
+    rep["Repositorios<br/>SQLite · SharedPreferences"] ~~~ svc["Servicios de gadgets<br/>geolocator · image_picker<br/>speech_to_text · url_launcher"]
+  end
+  subgraph D["Dominio · Dart puro"]
+    direction TB
+    ent["Entidades<br/>Entrada · Ubicacion · Preferencias"] ~~~ ifs["Interfaces<br/>Repositorio* · Servicio*"]
+  end
+  subgraph HW["Dispositivo"]
+    direction TB
+    db[("SQLite y<br/>SharedPreferences")] ~~~ gad["Cámara · Micrófono<br/>GPS · Google Maps"]
+  end
+  main --> P
+  main --> DA
+  P -- "usa las interfaces" --> D
+  DA -. "implementa" .-> D
+  DA -- "accede" --> HW
+    </pre></div>
+    <figcaption>Figura 1. Capas de la aplicación. Todas las dependencias apuntan hacia el dominio; <code>core</code> (excepciones y formato) es compartido por todas.</figcaption>
+  </figure>
+
+  <h3>2.1 Responsabilidad de cada capa</h3>
+  <table>
+    <tr><th style="width:18%">Capa</th><th style="width:30%">Carpeta</th><th>Responsabilidad</th></tr>
+    <tr><td>Núcleo</td><td><code>lib/core/</code></td><td>Jerarquía sellada de excepciones <code>BitacoraException</code> y utilidades de formato de fecha y coordenadas en español.</td></tr>
+    <tr><td>Dominio</td><td><code>lib/dominio/</code></td><td>Entidades inmutables y contratos (<code>abstract interface class</code>) de repositorios y servicios. No importa Flutter.</td></tr>
+    <tr><td>Datos</td><td><code>lib/datos/</code></td><td>Implementa los contratos con sqflite, shared_preferences, image_picker, speech_to_text, geolocator y url_launcher. Traduce los errores técnicos a excepciones del dominio.</td></tr>
+    <tr><td>Presentación</td><td><code>lib/presentacion/</code></td><td>Pantallas, widgets, navegación, tema y estado de la UI. Recibe las dependencias por un <code>InheritedWidget</code>.</td></tr>
+  </table>
+
+  <h3>2.2 Principios SOLID</h3>
+  <table>
+    <tr><th style="width:24%">Principio</th><th>Aplicación en el proyecto</th></tr>
+    <tr><td><strong>S</strong> · Responsabilidad única</td><td><code>BaseDatosLocal</code> sólo abre la base y crea el esquema, <code>MapeadorEntrada</code> sólo convierte entre entidad y fila, y el repositorio sólo hace consultas. Cada gadget tiene su propio servicio.</td></tr>
+    <tr><td><strong>O</strong> · Abierto/cerrado</td><td>Para cambiar SQLite por otro motor u OpenStreetMap por Google Maps basta con una implementación nueva de la interfaz. Las pantallas no se modifican.</td></tr>
+    <tr><td><strong>L</strong> · Sustitución de Liskov</td><td>Las pruebas reemplazan cada servicio por una versión falsa y la app se comporta igual. Así se prueban los flujos sin GPS, cámara ni micrófono reales.</td></tr>
+    <tr><td><strong>I</strong> · Segregación de interfaces</td><td>Hay cuatro interfaces pequeñas, una por gadget (<code>ServicioUbicacion</code>, <code>ServicioImagenes</code>, <code>ServicioDictado</code> y <code>ServicioMapasExternos</code>), en lugar de un solo "servicio del dispositivo".</td></tr>
+    <tr><td><strong>D</strong> · Inversión de dependencias</td><td><code>Dependencias</code> sólo declara tipos del dominio. La presentación nunca importa la capa de datos; las clases concretas se crean en <code>main.dart</code>.</td></tr>
+  </table>
+</section>
+
+<!-- ═════════════════════════════ 3. DIAGRAMA DE CLASES ═════════════════════════════ -->
+<section>
+  <h2><span class="num">3</span>Diagrama de clases</h2>
+  <p>Por legibilidad, el diagrama se divide en cuatro vistas: las entidades del dominio, los contratos de
+    persistencia, los servicios de gadgets y la capa de presentación.</p>
+
+  <figure>
+    <div class="diagrama"><pre class="mermaid">
+classDiagram
+  direction TB
+  class Entrada {
+    +int? id
+    +String titulo
+    +String descripcion
+    +CategoriaEntrada categoria
+    +DateTime fecha
+    +String? rutaImagen
+    +Ubicacion? ubicacion
+    +bool tieneImagen
+    +bool tieneUbicacion
+    +String etiquetaHero
+    +copiarConId(int id) Entrada
+  }
+  class Ubicacion {
+    +double latitud
+    +double longitud
+    +double? precisionMetros
+  }
+  class CategoriaEntrada {
+    &lt;&lt;enumeration&gt;&gt;
+    avance
+    incidencia
+    seguridad
+    materiales
+    inspeccion
+    +String etiqueta
+    +desdeNombre(String) CategoriaEntrada
+  }
+  class Preferencias {
+    +ModoTema modoTema
+    +bool recientesPrimero
+    +IdiomaDictado idiomaDictado
+    +copiarCon() Preferencias
+  }
+  class ModoTema {
+    &lt;&lt;enumeration&gt;&gt;
+    sistema
+    claro
+    oscuro
+  }
+  class IdiomaDictado {
+    &lt;&lt;enumeration&gt;&gt;
+    espanolMexico
+    espanolEspana
+    espanolEstadosUnidos
+    inglesEstadosUnidos
+    +String codigo
+  }
+  Entrada --> "1" CategoriaEntrada
+  Entrada --> "0..1" Ubicacion
+  Preferencias --> ModoTema
+  Preferencias --> IdiomaDictado
+    </pre></div>
+    <figcaption>Figura 2. Entidades del dominio (inmutables y sin dependencias de Flutter).</figcaption>
+  </figure>
+
+  <figure>
+    <div class="diagrama"><pre class="mermaid">
+classDiagram
+  direction TB
+  class RepositorioEntradas {
+    &lt;&lt;interface&gt;&gt;
+    +obtenerTodas(categoria, recientesPrimero) Future~List~Entrada~~
+    +obtenerPorId(int id) Future~Entrada?~
+    +crear(Entrada) Future~Entrada~
+    +actualizar(Entrada) Future~void~
+    +eliminar(int id) Future~void~
+    +contarPorCategoria() Future~Map~
+  }
+  class RepositorioPreferencias {
+    &lt;&lt;interface&gt;&gt;
+    +cargar() Future~Preferencias~
+    +guardar(Preferencias) Future~void~
+  }
+  class RepositorioEntradasSqlite {
+    -BaseDatosLocal fuente
+    -protegido(operacion, accion) Future
+  }
+  class RepositorioPreferenciasShared {
+    -SharedPreferencesAsync almacen
+  }
+  class BaseDatosLocal {
+    +Future~Database~ baseDatos
+    -crearEsquema(db, version)
+    +cerrar()
+  }
+  class MapeadorEntrada {
+    +aFila(Entrada)$ Map
+    +desdeFila(Map)$ Entrada
+  }
+  RepositorioEntradas <|.. RepositorioEntradasSqlite
+  RepositorioPreferencias <|.. RepositorioPreferenciasShared
+  RepositorioEntradasSqlite --> BaseDatosLocal
+  RepositorioEntradasSqlite ..> MapeadorEntrada
+    </pre></div>
+    <figcaption>Figura 3. Contratos de persistencia (arriba) e implementaciones con SQLite y SharedPreferences (abajo).</figcaption>
+  </figure>
+
+  <figure>
+    <div class="diagrama"><pre class="mermaid">
+classDiagram
+  direction LR
+  class ServicioImagenes {
+    &lt;&lt;interface&gt;&gt;
+    +seleccionar(OrigenImagen) Future~String?~
+    +guardarPermanente(String ruta) Future~String~
+    +eliminar(String ruta)
+  }
+  class ServicioDictado {
+    &lt;&lt;interface&gt;&gt;
+    +inicializar() Future~bool~
+    +iniciar(codigoIdioma, callbacks)
+    +detener()
+    +cancelar()
+  }
+  class ServicioUbicacion {
+    &lt;&lt;interface&gt;&gt;
+    +obtenerUbicacionActual() Future~Ubicacion~
+    +abrirAjustes(MotivoFalloUbicacion)
+  }
+  class ServicioMapasExternos {
+    &lt;&lt;interface&gt;&gt;
+    +abrirEnGoogleMaps(Ubicacion)
+  }
+  class ServicioImagenesPicker {
+    image_picker · path_provider
+  }
+  class ServicioDictadoSpeechToText {
+    speech_to_text
+  }
+  class ServicioUbicacionGeolocator {
+    geolocator
+  }
+  class ServicioMapasUrlLauncher {
+    url_launcher
+  }
+  ServicioImagenes <|.. ServicioImagenesPicker
+  ServicioDictado <|.. ServicioDictadoSpeechToText
+  ServicioUbicacion <|.. ServicioUbicacionGeolocator
+  ServicioMapasExternos <|.. ServicioMapasUrlLauncher
+    </pre></div>
+    <figcaption>Figura 4. Una interfaz por gadget (izquierda) y su implementación con el paquete correspondiente (derecha).</figcaption>
+  </figure>
+
+  <figure>
+    <div class="diagrama"><pre class="mermaid">
+classDiagram
+  direction LR
+  class BitacoraApp {
+    +Dependencias dependencias
+    +build() MaterialApp
+  }
+  class ProveedorDependencias {
+    &lt;&lt;InheritedWidget&gt;&gt;
+    +of(BuildContext)$ Dependencias
+  }
+  class Dependencias {
+    +RepositorioEntradas entradas
+    +ServicioUbicacion ubicacion
+    +ServicioImagenes imagenes
+    +ServicioDictado dictado
+    +ServicioMapasExternos mapasExternos
+    +ControladorPreferencias preferencias
+  }
+  class ControladorPreferencias {
+    &lt;&lt;ChangeNotifier&gt;&gt;
+    +Preferencias actuales
+    +cargar()
+    +cambiarModoTema(ModoTema)
+    +cambiarOrden(bool)
+    +cambiarIdiomaDictado(IdiomaDictado)
+  }
+  class GeneradorRutas {
+    +Map tabla$
+    +generar(RouteSettings)$ Route
+    +desconocida(RouteSettings)$ Route
+  }
+  class ListaEntradasPantalla {
+    -Future~List~Entrada~~ futuroEntradas
+    -CategoriaEntrada? filtro
+  }
+  class DetalleEntradaPantalla {
+    +Entrada entradaInicial
+    -Future~Entrada?~ futuroEntrada
+  }
+  class FormularioEntradaPantalla {
+    +Entrada? entradaOriginal
+    -guardar()
+    -alternarDictado()
+    -seleccionarImagen(OrigenImagen)
+  }
+  BitacoraApp --> ProveedorDependencias
+  BitacoraApp --> GeneradorRutas
+  ProveedorDependencias o-- Dependencias
+  Dependencias o-- ControladorPreferencias
+  GeneradorRutas ..> ListaEntradasPantalla : crea
+  GeneradorRutas ..> DetalleEntradaPantalla : crea
+  GeneradorRutas ..> FormularioEntradaPantalla : crea
+  GeneradorRutas ..> MapaEntradasPantalla : crea
+  GeneradorRutas ..> AjustesPantalla : crea
+  GeneradorRutas ..> VisorImagenPantalla : crea
+  ListaEntradasPantalla --> DrawerPrincipal
+  ListaEntradasPantalla --> TarjetaEntrada
+  DetalleEntradaPantalla --> MapaUbicacion
+  FormularioEntradaPantalla --> SelectorImagen
+  FormularioEntradaPantalla --> PanelDictado
+    </pre></div>
+    <figcaption>Figura 5. Capa de presentación. Todas las pantallas obtienen sus dependencias de <code>ProveedorDependencias</code>.</figcaption>
+  </figure>
+</section>
+
+<!-- ═════════════════════════════ 4. FLUJO DE DATOS ═════════════════════════════ -->
+<section>
+  <h2><span class="num">4</span>Flujo de datos</h2>
+
+  <h3>4.1 Crear una entrada (uso de los tres gadgets)</h3>
+  <p>El formulario coordina los gadgets en este orden: foto y dictado mientras el usuario llena el
+    formulario, y GPS y guardado cuando toca <em>Guardar entrada</em>. La foto se copia al
+    almacenamiento permanente <strong>sólo al guardar</strong>. Si SQLite falla después de copiarla,
+    se borra para no dejar archivos huérfanos.</p>
+  <figure>
+    <div class="diagrama"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor U as Usuario
+  participant F as FormularioEntrada
+  participant I as ServicioImagenes
+  participant D as ServicioDictado
+  participant G as ServicioUbicacion
+  participant R as RepositorioEntradas
+  participant DB as SQLite
+  U->>F: Toca Cámara o Galería
+  F->>I: seleccionar(origen)
+  I-->>F: ruta temporal o null
+  U->>F: Toca el micrófono y habla
+  F->>D: iniciar(es_MX, callbacks)
+  D-->>F: texto parcial y final, nivel de audio
+  U->>F: Guardar entrada
+  F->>F: validar formulario
+  F->>G: obtenerUbicacionActual()
+  alt GPS disponible
+    G-->>F: Ubicacion(lat, lon, precisión)
+  else apagado, sin permiso o sin señal
+    G--xF: UbicacionException(motivo)
+    F->>U: Diálogo: reintentar, ajustes, sin GPS
+  end
+  F->>I: guardarPermanente(ruta temporal)
+  I-->>F: ruta permanente
+  F->>R: crear(Entrada)
+  R->>DB: INSERT INTO entradas
+  DB-->>R: id
+  R-->>F: Entrada con id
+  F-->>U: pop(ResultadoEntrada.creada)
+  Note over U,F: La lista recarga su FutureBuilder
+    </pre></div>
+    <figcaption>Figura 6. Secuencia al crear una entrada con foto, dictado y GPS.</figcaption>
+  </figure>
+
+  <h3>4.2 Cargar la lista con FutureBuilder</h3>
+  <p>El <code>Future</code> se crea en <code>initState</code> y se guarda en el estado. Sólo se reemplaza
+    al recargar (al volver de otra pantalla, al deslizar hacia abajo o al cambiar el filtro u orden).
+    Si se creara dentro de <code>build()</code>, cada redibujado repetiría la consulta.</p>
+  <figure>
+    <div class="diagrama"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  participant L as ListaEntradas
+  participant FB as FutureBuilder
+  participant R as RepositorioSqlite
+  participant B as BaseDatosLocal
+  participant M as MapeadorEntrada
+  L->>R: obtenerTodas(filtro, orden)
+  L->>FB: future
+  FB-->>L: waiting: indicador de carga
+  R->>B: baseDatos (apertura única)
+  B-->>R: Database
+  R->>B: query(entradas, where, orderBy)
+  B-->>R: List of Map
+  loop por cada fila
+    R->>M: desdeFila(fila)
+    M-->>R: Entrada
+  end
+  alt consulta exitosa
+    R-->>FB: List of Entrada
+    FB-->>L: hasData: ListView o estado vacío
+  else DatabaseException / FormatException
+    R-->>FB: AlmacenamientoException
+    FB-->>L: hasError: mensaje y Reintentar
+  end
+    </pre></div>
+    <figcaption>Figura 7. Carga asíncrona de las entradas guardadas.</figcaption>
+  </figure>
+  <p>El detalle usa <code>FutureBuilder</code> con <code>initialData</code>: muestra de inmediato la entrada
+    recibida desde la lista y al mismo tiempo la vuelve a leer de SQLite. Así el <code>Hero</code> tiene
+    destino desde el primer cuadro de la animación, y además se ven los cambios hechos al editar.</p>
+</section>
+
+<!-- ═════════════════════════════ 5. NAVEGACIÓN ═════════════════════════════ -->
+<section>
+  <h2><span class="num">5</span>Navegación y animaciones</h2>
+  <p>La estructura principal es <code>Scaffold</code> + <code>AppBar</code> + <code>Drawer</code>. La navegación usa
+    rutas nombradas de tres formas:</p>
+  <ul>
+    <li><code>routes</code>: tabla para las pantallas sin argumentos (lista, ajustes y acerca de).</li>
+    <li><code>onGenerateRoute</code>: para las rutas que reciben argumentos (detalle, formulario, visor y mapa).
+      Valida el tipo del argumento con <em>pattern matching</em> y aplica una transición propia con
+      <code>PageRouteBuilder</code>.</li>
+    <li><code>onUnknownRoute</code>: pantalla de respaldo si se pide una ruta inexistente.</li>
+  </ul>
+  <figure>
+    <div class="diagrama"><pre class="mermaid">
+flowchart LR
+  lista["<b>/</b><br/>ListaEntradas"]
+  nueva["<b>/entrada/nueva</b><br/>Formulario"]
+  detalle["<b>/entrada</b><br/>Detalle"]
+  editar["<b>/entrada/editar</b><br/>Formulario"]
+  visor["<b>/entrada/imagen</b><br/>Visor"]
+  mapa["<b>/mapa</b><br/>MapaEntradas"]
+  ajustes["<b>/ajustes</b>"]
+  acerca["<b>/acerca-de</b>"]
+  lista -- "FAB o Drawer" --> nueva
+  lista -- "toca tarjeta · Hero" --> detalle
+  detalle -- "editar" --> editar
+  detalle -- "toca foto · Hero" --> visor
+  detalle -- "Ampliar" --> mapa
+  lista -- "AppBar o Drawer" --> mapa
+  mapa -- "Ver detalle" --> detalle
+  lista -- "Drawer" --> ajustes
+  lista -- "Drawer" --> acerca
+  nueva -. "pop(creada)" .-> lista
+  detalle -. "pop(eliminada)" .-> lista
+    </pre></div>
+    <figcaption>Figura 8. Mapa de navegación. Las líneas punteadas son resultados devueltos con <code>Navigator.pop</code>.</figcaption>
+  </figure>
+
+  <h3>5.1 Widgets animados</h3>
+  <table>
+    <tr><th style="width:30%">Animación</th><th>Dónde y para qué</th></tr>
+    <tr><td><code>Hero</code></td><td>La miniatura de la tarjeta vuela a la cabecera del detalle y de ahí al visor a pantalla completa. Antes de navegar se precarga la imagen con <code>precacheImage</code> para que no aparezca un hueco en blanco durante el vuelo.</td></tr>
+    <tr><td><code>PageRouteBuilder</code></td><td>Transiciones de desvanecido con deslizamiento lateral (detalle y mapa), deslizamiento vertical (formulario) y sólo desvanecido (visor).</td></tr>
+    <tr><td><code>AnimatedSwitcher</code></td><td>Cambio entre los estados de carga, error, vacío y lista; aparición y cambio de la foto en el formulario; ícono y texto del botón de dictado.</td></tr>
+    <tr><td><code>AnimatedContainer</code></td><td>Anillo del micrófono que crece según el volumen captado, y color del panel mientras escucha.</td></tr>
+    <tr><td><code>TweenAnimationBuilder</code></td><td>Aparición escalonada de las tarjetas de la lista.</td></tr>
+    <tr><td><code>SliverAppBar</code></td><td>Cabecera con foto que se contrae al desplazar y se estira al jalar hacia abajo (<code>StretchMode.zoomBackground</code>).</td></tr>
+  </table>
+</section>
+
+<!-- ═════════════════════════════ 6. ALMACENAMIENTO ═════════════════════════════ -->
+<section>
+  <h2><span class="num">6</span>Almacenamiento local</h2>
+  <p>Se usan los dos mecanismos, cada uno donde tiene sentido. <strong>SQLite</strong> guarda los registros
+    del diario porque son datos estructurados que se filtran, ordenan y cuentan. <strong>SharedPreferences</strong>
+    guarda tres preferencias simples de tipo clave-valor.</p>
+
+  <h3>6.1 Tabla <code>entradas</code> (SQLite)</h3>
+  <table>
+    <tr><th>Columna</th><th>Tipo</th><th>Contenido</th></tr>
+    <tr><td><code>id</code></td><td>INTEGER PK AUTOINCREMENT</td><td>Identificador asignado por SQLite</td></tr>
+    <tr><td><code>titulo</code></td><td>TEXT NOT NULL</td><td>Título de la entrada</td></tr>
+    <tr><td><code>descripcion</code></td><td>TEXT NOT NULL</td><td>Texto escrito o dictado</td></tr>
+    <tr><td><code>categoria</code></td><td>TEXT NOT NULL</td><td>Nombre del enum (<code>avance</code>, <code>incidencia</code>…)</td></tr>
+    <tr><td><code>fecha</code></td><td>INTEGER NOT NULL</td><td>Milisegundos desde epoch (tiene índice para ordenar)</td></tr>
+    <tr><td><code>ruta_imagen</code></td><td>TEXT</td><td><strong>Metadato:</strong> ruta de la foto en los documentos de la app</td></tr>
+    <tr><td><code>latitud</code>, <code>longitud</code></td><td>REAL</td><td><strong>Metadato:</strong> coordenadas GPS al guardar</td></tr>
+    <tr><td><code>precision_metros</code></td><td>REAL</td><td>Radio de incertidumbre del GPS (se dibuja en el mapa)</td></tr>
+  </table>
+  <div class="nota">La foto no se guarda dentro de la base: se copia a
+    <code>getApplicationDocumentsDirectory()/imagenes/</code> y SQLite guarda su ruta. La ruta temporal que
+    devuelve <code>image_picker</code> está en la caché, y el sistema puede borrarla en cualquier momento.</div>
+
+  <h3>6.2 SharedPreferences</h3>
+  <table>
+    <tr><th>Clave</th><th>Valor</th><th>Efecto</th></tr>
+    <tr><td><code>preferencias.tema</code></td><td><code>sistema</code> · <code>claro</code> · <code>oscuro</code></td><td>Cambia el tema de la app al instante</td></tr>
+    <tr><td><code>preferencias.recientes_primero</code></td><td>bool</td><td>Orden de la lista</td></tr>
+    <tr><td><code>preferencias.idioma_dictado</code></td><td><code>es_MX</code>, <code>es_ES</code>, <code>es_US</code>, <code>en_US</code></td><td>Idioma del reconocedor de voz</td></tr>
+  </table>
+
+  <h3>6.3 Detalles de implementación</h3>
+  <ul>
+    <li><code>BaseDatosLocal</code> guarda el <code>Future</code> de apertura y no la conexión. Así, si dos pantallas piden
+      la base al mismo tiempo, comparten una sola apertura. Si abrirla falla, se olvida ese intento para poder reintentar.</li>
+    <li><code>MapeadorEntrada</code> es defensivo: si la categoría es desconocida usa la de por defecto, sólo
+      crea la ubicación si hay ambas coordenadas y lanza <code>FormatException</code> si faltan campos obligatorios.</li>
+    <li><code>ControladorPreferencias</code> aplica el cambio en memoria de inmediato y después lo guarda. Si guardar
+      falla, revierte el cambio y avisa en pantalla.</li>
+  </ul>
+</section>
+
+<!-- ═════════════════════════════ 7. ERRORES ═════════════════════════════ -->
+<section>
+  <h2><span class="num">7</span>Manejo de errores</h2>
+  <p>Cada implementación de la capa de datos envuelve su paquete en <code>try-catch</code> y traduce los
+    errores técnicos (<code>DatabaseException</code>, <code>PlatformException</code>, <code>TimeoutException</code>…)
+    a una subclase de la clase sellada <code>BitacoraException</code>, con un mensaje pensado para el usuario.
+    La presentación sólo atrapa esas excepciones y nunca depende de los tipos de un paquete.</p>
+  <pre>sealed class BitacoraException implements Exception {
+  final String mensaje;   // se muestra al usuario
+  final Object? causa;    // error original, para depurar
+}
+├─ AlmacenamientoException   SQLite y SharedPreferences
+├─ UbicacionException        GPS (+ motivo: servicioDesactivado, permisoDenegado,
+│                                  permisoDenegadoPermanente, tiempoAgotado, desconocido)
+├─ MultimediaException       cámara, galería y copia de archivos
+├─ DictadoException          micrófono y reconocimiento de voz
+└─ MapaExternoException      apertura de Google Maps</pre>
+
+  <table>
+    <tr><th style="width:27%">Escenario</th><th style="width:30%">Dónde se detecta</th><th>Respuesta</th></tr>
+    <tr><td>GPS apagado</td><td>ServicioUbicacionGeolocator</td><td>Diálogo con <em>Abrir ajustes</em> (ajustes de ubicación), <em>Guardar sin GPS</em>, <em>Reintentar</em> o <em>Cancelar</em></td></tr>
+    <tr><td>Permiso de ubicación bloqueado</td><td>ServicioUbicacionGeolocator</td><td>El mismo diálogo; <em>Abrir ajustes</em> lleva a los ajustes de la app</td></tr>
+    <tr><td>Sin señal GPS en 20 s</td><td><code>TimeoutException</code></td><td>Se usa la última posición conocida; si no hay, se muestra el diálogo</td></tr>
+    <tr><td>Permiso de cámara o galería negado</td><td>ServicioImagenesPicker</td><td>SnackBar con el motivo; el formulario sigue utilizable</td></tr>
+    <tr><td>Error al copiar la foto</td><td>ServicioImagenesPicker</td><td>SnackBar; la entrada no se guarda a medias</td></tr>
+    <tr><td>Fallo de SQLite al guardar</td><td>RepositorioEntradasSqlite</td><td>SnackBar y se borra la foto ya copiada</td></tr>
+    <tr><td>Fallo al cargar la lista o datos dañados</td><td>Repositorio / MapeadorEntrada</td><td><code>FutureBuilder.hasError</code>: pantalla de error con <em>Reintentar</em></td></tr>
+    <tr><td>Micrófono negado o sin reconocedor</td><td>ServicioDictadoSpeechToText</td><td>SnackBar con instrucciones</td></tr>
+    <tr><td>No se entendió la voz o no hay red</td><td>Códigos <code>error_no_match</code>, <code>error_network</code>…</td><td>Se traducen a mensajes en español</td></tr>
+    <tr><td>No hay app para abrir el mapa</td><td>ServicioMapasUrlLauncher</td><td>SnackBar</td></tr>
+    <tr><td>La foto se borró del teléfono</td><td><code>Image.file(errorBuilder)</code></td><td>Icono de "imagen no disponible" en vez de un error</td></tr>
+    <tr><td>Salir del formulario con cambios</td><td><code>PopScope</code></td><td>Diálogo de confirmación para descartar</td></tr>
+  </table>
+</section>
+
+<!-- ═════════════════════════════ 8. REQUISITOS ═════════════════════════════ -->
+<section>
+  <h2><span class="num">8</span>Cumplimiento de requisitos</h2>
+  <table>
+    <tr><th style="width:30%">Requisito</th><th>Implementación</th></tr>
+    <tr><td>Scaffold, AppBar y Drawer</td><td>Todas las pantallas usan <code>Scaffold</code> y <code>AppBar</code> (en el detalle, <code>SliverAppBar</code>). <code>DrawerPrincipal</code> tiene filtros por categoría con contadores (<code>FutureBuilder</code>) y accesos a nueva entrada, mapa, ajustes y acerca de.</td></tr>
+    <tr><td>Routes y Navigator entre lista, detalle y formulario</td><td><code>Rutas</code> (constantes), <code>GeneradorRutas</code> (<code>routes</code>, <code>onGenerateRoute</code> y <code>onUnknownRoute</code>), <code>Navigator.pushNamed</code> con argumentos y <code>Navigator.pop</code> con resultado tipado (<code>ResultadoEntrada</code>).</td></tr>
+    <tr><td>Hero y transiciones fluidas</td><td>Hero de lista a detalle y de detalle a visor; transiciones con <code>PageRouteBuilder</code> y los widgets animados de la sección 5.1.</td></tr>
+    <tr><td>SQLite o SharedPreferences</td><td>Ambos. SQLite guarda los registros con la ruta de la imagen y las coordenadas; SharedPreferences guarda las preferencias.</td></tr>
+    <tr><td>try-catch y FutureBuilder</td><td><code>try-catch</code> en cada servicio y repositorio, y en cada acción de la UI. <code>FutureBuilder</code> en la lista, el detalle, el mapa general y el Drawer.</td></tr>
+    <tr><td>Cámara y galería en el formulario</td><td><code>SelectorImagen</code> con <em>Cámara</em> y <em>Galería</em>, vista previa y opción de quitar o cambiar la foto.</td></tr>
+    <tr><td>Micrófono y dictado</td><td><code>PanelDictado</code>: captura del micrófono con <code>speech_to_text</code>, resultados parciales en vivo, nivel de audio animado e idioma configurable.</td></tr>
+    <tr><td>GPS al guardar</td><td><code>FormularioEntradaPantalla._guardar()</code> captura la posición antes de insertar en SQLite.</td></tr>
+    <tr><td>Mapa o botón a Google Maps</td><td>Ambos: mapa interactivo (arrastrar y zoom) con OpenStreetMap, círculo de precisión y botón <em>Abrir en Google Maps</em>. Además, un mapa general con todas las entradas.</td></tr>
+    <tr><td>Código por capas, SOLID y comentado</td><td>Ver secciones 2 y 3. Cada clase pública está documentada con comentarios <code>///</code> en español.</td></tr>
+    <tr><td>Commits descriptivos</td><td>Historial en Git con mensajes del tipo <code>feat(dominio): …</code>, <code>feat(ui): …</code> y <code>test: …</code>, cada uno con el detalle de lo que incluye.</td></tr>
+  </table>
+
+  <h3>8.1 Paquetes utilizados</h3>
+  <table>
+    <tr><th>Paquete</th><th>Versión</th><th>Uso</th></tr>
+    <tr><td><code>sqflite</code></td><td>2.4.6</td><td>Base de datos SQLite</td></tr>
+    <tr><td><code>shared_preferences</code></td><td>2.5.6</td><td>Preferencias del usuario</td></tr>
+    <tr><td><code>image_picker</code></td><td>1.2.4</td><td>Cámara y galería</td></tr>
+    <tr><td><code>speech_to_text</code></td><td>7.5.0</td><td>Captura de micrófono y voz a texto</td></tr>
+    <tr><td><code>geolocator</code></td><td>14.1.2</td><td>Permisos y posición GPS</td></tr>
+    <tr><td><code>flutter_map</code> + <code>latlong2</code></td><td>8.3.2 · 0.10.1</td><td>Mapa interactivo con OpenStreetMap (no requiere clave de API)</td></tr>
+    <tr><td><code>url_launcher</code></td><td>6.3.3</td><td>Abrir Google Maps con las coordenadas</td></tr>
+    <tr><td><code>path_provider</code> + <code>path</code></td><td>2.1.6</td><td>Carpeta permanente de las fotos</td></tr>
+    <tr><td><code>intl</code> + <code>flutter_localizations</code></td><td>0.20.2</td><td>Fechas y textos de Material en español</td></tr>
+    <tr><td><code>sqflite_common_ffi</code> (dev)</td><td>2.4.7</td><td>SQLite real en memoria para las pruebas</td></tr>
+  </table>
+</section>
+
+<!-- ═════════════════════════════ 9. PRUEBAS ═════════════════════════════ -->
+<section>
+  <h2><span class="num">9</span>Pruebas y calidad del código</h2>
+  <p><code>flutter analyze</code> no reporta ningún problema y las <strong>26 pruebas</strong> de
+    <code>flutter test</code> pasan. Como las pantallas dependen de interfaces, los flujos completos se
+    prueban con gadgets simulados, sin GPS, cámara ni micrófono reales.</p>
+  <table style="break-inside: avoid">
+    <tr><th style="width:40%">Archivo</th><th style="width:8%">Pruebas</th><th>Qué verifica</th></tr>
+    <tr><td><code>test/datos/mapeador_entrada_test.dart</code></td><td>6</td><td>Conversión de ida y vuelta, fecha en milisegundos, ubicación incompleta, categoría desconocida y fila inválida</td></tr>
+    <tr><td><code>test/datos/repositorio_entradas_sqlite_test.dart</code></td><td>7</td><td>CRUD, orden, filtro y conteo contra <strong>SQLite real en memoria</strong>, y traducción de errores</td></tr>
+    <tr><td><code>test/core/formato_test.dart</code></td><td>3</td><td>Fechas relativas y largas en español, y coordenadas con hemisferio</td></tr>
+    <tr><td><code>test/presentacion/controlador_preferencias_test.dart</code></td><td>2</td><td>Persistencia y reversión cuando falla el guardado</td></tr>
+    <tr><td><code>test/presentacion/flujo_app_test.dart</code></td><td>8</td><td>Estado vacío, error con reintento, validación, guardado con GPS, guardado sin GPS, dictado, filtro del Drawer y eliminación desde el detalle</td></tr>
+  </table>
+  <div class="nota">Las pruebas de widgets encontraron dos defectos reales durante el desarrollo, que se
+    corrigieron antes de entregar. El primero: <code>setState(() =&gt; _futuro = …)</code> devolvía un
+    <code>Future</code> dentro de <code>setState</code>. El segundo: la cabecera del Drawer se desbordaba
+    con textos largos.</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    securityLevel: 'loose',
+    fontFamily: '-apple-system, "Helvetica Neue", Arial, sans-serif',
+    themeVariables: {
+      primaryColor: '#fbe9db',
+      primaryBorderColor: '#c35a0e',
+      primaryTextColor: '#1d1b19',
+      lineColor: '#7a716a',
+      secondaryColor: '#f3efe9',
+      tertiaryColor: '#faf6f2',
+      clusterBkg: '#faf6f2',
+      clusterBorder: '#e4ddd6',
+      actorBkg: '#fbe9db',
+      actorBorder: '#c35a0e',
+      noteBkgColor: '#fff6d6',
+      noteBorderColor: '#e0b84a',
+      fontSize: '13px'
+    },
+    flowchart: { htmlLabels: true, curve: 'basis' },
+    sequence: { mirrorActors: false, messageFontSize: 13, actorFontSize: 13, noteFontSize: 12, width: 120, actorMargin: 28, boxMargin: 6, messageMargin: 32, useMaxWidth: true },
+    class: { hideEmptyMembersBox: true }
+  });
+  mermaid.run({ querySelector: '.mermaid' })
+    .then(() => { document.body.dataset.listo = '1'; })
+    .catch((e) => { document.body.dataset.listo = 'error'; console.error(e); });
+</script>
+</body>
+</html>
